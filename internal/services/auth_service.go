@@ -3,8 +3,8 @@ package services
 import (
 	"errors"
 
-	"github.com/yourusername/stock-portfolio-app/internal/models"
-	"github.com/yourusername/stock-portfolio-app/internal/repository"
+	"github.com/Ayush10/PortfoAI/internal/models"
+	"github.com/Ayush10/PortfoAI/internal/repository"
 	"golang.org/x/crypto/bcrypt"
 )
 

@@ -4,13 +4,13 @@ import (
 	"log"
 
 	"github.com/Ayush10/PortfoAI/internal/api"
-	"github.com/Ayush10/PortfoAI/internal/config"
+	"github.com/Ayush10/PortfoAI/configs"
 	"github.com/Ayush10/PortfoAI/internal/database"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-    config.LoadConfig()          // Load configurations (DB, etc.)
+    configs.LoadConfig()          // Load configurations (DB, etc.)
     database.InitDB()            // Initialize the DB connection
     database.RunMigrations()     // Run migrations to create tables
 

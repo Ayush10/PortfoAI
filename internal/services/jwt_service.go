@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/yourusername/stock-portfolio-app/internal/models"
+	"github.com/Ayush10/PortfoAI/internal/models"
 )
 
 var jwtKey = []byte("your_secret_key")

@@ -2,7 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/stock-portfolio-app/internal/api/handlers"
+	"github.com/Ayush10/PortfoAI/internal/api/handlers"
 )
 
 func RegisterRoutes(router *gin.Engine) {

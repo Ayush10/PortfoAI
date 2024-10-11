@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/yourusername/stock-portfolio-app/internal/database"
-	"github.com/yourusername/stock-portfolio-app/internal/models"
+	"github.com/Ayush10/PortfoAI/internal/database"
+	"github.com/Ayush10/PortfoAI/internal/models"
 )
 
 func GetUserByEmailOrPhone(emailOrPhone string) (*models.User, error) {

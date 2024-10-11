@@ -3,10 +3,9 @@
 package handlers
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
-	"github.com/yourusername/stock-portfolio-app/internal/services"
+    "net/http"
+    "github.com/gin-gonic/gin"
+    "github.com/Ayush10/PortfoAI/internal/services"
 )
 
 type LoginRequest struct {
@@ -21,17 +20,10 @@ func Login(c *gin.Context) {
         return
     }
 
-    // Check credentials using a service function
-    user, err := services.AuthenticateUser(loginReq.EmailOrPhone, loginReq.Password)
+    // Authenticate user and generate JWT token
+    token, err := services.Authenticate(loginReq.EmailOrPhone, loginReq.Password)
     if err != nil {
         c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
-        return
-    }
-
-    // Generate JWT token (or session token)
-    token, err := services.GenerateJWT(user)
-    if err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to generate token"})
         return
     }
 

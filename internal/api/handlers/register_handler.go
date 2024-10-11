@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/yourusername/stock-portfolio-app/internal/models"
-	"github.com/yourusername/stock-portfolio-app/internal/services"
+	"github.com/Ayush10/PortfoAI/internal/models"
+	"github.com/Ayush10/PortfoAI/internal/services"
 )
 
 type RegisterRequest struct {
