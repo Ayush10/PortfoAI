@@ -1,49 +1,46 @@
 package database
 
 import (
-	"database/sql"
 	"log"
 	"os"
 	"path/filepath"
 
-	_ "github.com/mattn/go-sqlite3"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
-var DB *sql.DB
+var DB *gorm.DB
 
 // Initialize the SQLite connection
-func InitDB() {
-    var err error
-    
-    // Ensure that the data directory exists
-    dbDir := "./data"
-    if err := os.MkdirAll(dbDir, os.ModePerm); err != nil {
-        log.Fatal("Error creating database directory: ", err)
-    }
+func InitDB() *gorm.DB {
+	var err error
 
-    dbPath := filepath.Join(dbDir, "portfoai.db")
-    DB, err = sql.Open("sqlite3", dbPath)
-    if err != nil {
-        log.Fatal("Error opening database: ", err)
-    }
+	// Ensure that the data directory exists
+	dbDir := "./data"
+	if err := os.MkdirAll(dbDir, os.ModePerm); err != nil {
+		log.Fatal("Error creating database directory: ", err)
+	}
 
-    if err = DB.Ping(); err != nil {
-        log.Fatal("Cannot connect to database: ", err)
-    }
+	dbPath := filepath.Join(dbDir, "portfoai.db")
+	DB, err = gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
+	if err != nil {
+		log.Fatal("Error opening database: ", err)
+	}
 
-    log.Println("Connected to SQLite database")
+	log.Println("Connected to SQLite database")
+	return DB
 }
 
 // RunMigrations creates the tables if they don't exist
 func RunMigrations() {
-    queries := []string{
-        `CREATE TABLE IF NOT EXISTS users (
+	queries := []string{
+		`CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT UNIQUE NOT NULL,
             phone TEXT UNIQUE,
             password TEXT NOT NULL
         );`,
-        `CREATE TABLE IF NOT EXISTS portfolios (
+		`CREATE TABLE IF NOT EXISTS portfolios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
             asset_name TEXT NOT NULL,
@@ -52,14 +49,14 @@ func RunMigrations() {
             purchase_price REAL NOT NULL,
             FOREIGN KEY (user_id) REFERENCES users(id)
         );`,
-    }
+	}
 
-    for _, query := range queries {
-        _, err := DB.Exec(query)
-        if err != nil {
-            log.Fatalf("Error running migration: %v", err)
-        }
-    }
+	for _, query := range queries {
+		err := DB.Exec(query).Error
+		if err != nil {
+			log.Fatalf("Error running migration: %v", err)
+		}
+	}
 
-    log.Println("Migrations ran successfully")
+	log.Println("Migrations ran successfully")
 }
